@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
   navarnaCount: {
     type: Number,
     default: 0,
-  }
+  },
 });
 
 const User = mongoose.models.users || mongoose.model("users", userSchema);

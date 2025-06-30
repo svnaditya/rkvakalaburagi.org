@@ -6,27 +6,24 @@ export async function POST(request: NextRequest) {
   try {
     // Ensure database is connected
     await connect();
-    
+
     const { email } = await request.json();
-    
+
     if (!email) {
-      return NextResponse.json(
-        { error: "Email is required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
 
     // Try to find existing user
     let user = await User.findOne({ email });
-    
+
     // If user doesn't exist, create a new one with default values
     if (!user) {
-      user = new User({ 
+      user = new User({
         email,
         vishnuSahasranama: 0,
         lalithaSahasranama: 0,
         durgaSaptashati: 0,
-        navarnaCount: 0
+        navarnaCount: 0,
       });
       await user.save();
     }
@@ -37,7 +34,7 @@ export async function POST(request: NextRequest) {
       vishnuSahasranama: user.vishnuSahasranama || 0,
       lalithaSahasranama: user.lalithaSahasranama || 0,
       durgaSaptashati: user.durgaSaptashati || 0,
-      navarnaCount: user.navarnaCount || 0
+      navarnaCount: user.navarnaCount || 0,
     };
 
     return NextResponse.json(userData);
@@ -45,7 +42,7 @@ export async function POST(request: NextRequest) {
     console.error("Error in /api/users/me:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

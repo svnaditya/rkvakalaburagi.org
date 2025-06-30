@@ -18,9 +18,9 @@ export async function GET() {
           navarnaCount: { $sum: "$navarnaCount" },
           vishnuSahasranama: { $sum: "$vishnuSahasranama" },
           lalithaSahasranama: { $sum: "$lalithaSahasranama" },
-          durgaSaptashati: { $sum: "$durgaSaptashati" }
-        }
-      }
+          durgaSaptashati: { $sum: "$durgaSaptashati" },
+        },
+      },
     ]);
 
     const metrics = result[0] || {
@@ -28,7 +28,7 @@ export async function GET() {
       navarnaCount: 0,
       vishnuSahasranama: 0,
       lalithaSahasranama: 0,
-      durgaSaptashati: 0
+      durgaSaptashati: 0,
     };
 
     return NextResponse.json({
@@ -39,15 +39,15 @@ export async function GET() {
           navarna: metrics.navarnaCount,
           vishnuSahasranama: metrics.vishnuSahasranama,
           lalithaSahasranama: metrics.lalithaSahasranama,
-          durgaSaptashati: metrics.durgaSaptashati
-        }
-      }
+          durgaSaptashati: metrics.durgaSaptashati,
+        },
+      },
     });
   } catch (error) {
     console.error("Error fetching analytics:", error);
     return NextResponse.json(
       { success: false, error: "Failed to fetch analytics" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

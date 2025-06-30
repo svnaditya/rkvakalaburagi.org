@@ -1,9 +1,11 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI || '';
+const MONGODB_URI = process.env.MONGODB_URI || "";
 
 if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
+  throw new Error(
+    "Please define the MONGODB_URI environment variable inside .env.local",
+  );
 }
 
 // Type for the mongoose cache
@@ -12,11 +14,16 @@ interface MongooseCache {
   promise: Promise<typeof mongoose> | null;
 }
 
-// Initialize the cache
-let cached: MongooseCache = (global as any).mongoose || { conn: null, promise: null };
+declare global {
+  // eslint-disable-next-line no-var
+  var mongoose: MongooseCache | undefined;
+}
 
-if (!(global as any).mongoose) {
-  (global as any).mongoose = { conn: null, promise: null };
+// Initialize the cache
+const cached: MongooseCache = global.mongoose || { conn: null, promise: null };
+
+if (!global.mongoose) {
+  global.mongoose = { conn: null, promise: null };
 }
 
 /**
