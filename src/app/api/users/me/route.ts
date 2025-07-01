@@ -31,17 +31,17 @@ export async function POST(request: NextRequest) {
         new: true,
         upsert: true,
         setDefaultsOnInsert: true,
-      }
+      },
     );
 
     // Explicitly get the values from the document
     const userData = user.toObject ? user.toObject() : user;
-    
+
     // Return all user data with proper defaults
     return NextResponse.json({
       email: userData.email,
-      name: userData.name || '',
-      mobile: userData.mobile || '',
+      name: userData.name || "",
+      mobile: userData.mobile || "",
       vishnuSahasranama: userData.vishnuSahasranama || 0,
       lalithaSahasranama: userData.lalithaSahasranama || 0,
       durgaSaptashati: userData.durgaSaptashati || 0,

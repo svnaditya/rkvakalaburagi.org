@@ -8,7 +8,7 @@ export async function POST(request: Request) {
     if (!email) {
       return NextResponse.json(
         { success: false, error: "Email is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -18,37 +18,41 @@ export async function POST(request: Request) {
     if (!user) {
       return NextResponse.json(
         { success: false, error: "User not found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
-    
+
     // Prepare update object
     const updateData: { name?: string; mobile?: string } = {};
-    
+
     if (name) {
       updateData.name = name;
     }
     if (mobile) {
       updateData.mobile = mobile;
     }
-    
+
     // Prepare the update operation to only set fields that don't exist
-    const update = {} as any;
-    
+    interface IUpdateData {
+      name?: string;
+      mobile?: string;
+    }
+    const update: IUpdateData = {};
+
     if (name) {
-      update['name'] = name;
+      update["name"] = name;
     }
     if (mobile) {
-      update['mobile'] = mobile;
+      update["mobile"] = mobile;
     }
-    
+
     // Update the user, only setting fields that don't exist
     const updatedUser = await User.findOneAndUpdate(
       { email },
       { $set: update },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     );
-    
+
     return NextResponse.json({
       success: true,
       user: {
@@ -60,7 +64,7 @@ export async function POST(request: Request) {
     console.error("Error updating profile:", error);
     return NextResponse.json(
       { success: false, error: "Failed to update profile" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

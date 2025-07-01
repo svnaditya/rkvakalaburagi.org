@@ -33,7 +33,7 @@ export default function Count() {
       durgaSaptashati: number;
     };
   } | null>(null);
-  
+
   const email = session?.user?.email;
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export default function Count() {
 
         // Check if profile is complete
         if (!userResponse.data.name || !userResponse.data.mobile) {
-          router.push('/profile/complete');
+          router.push("/profile/complete");
           return;
         }
 
@@ -73,7 +73,7 @@ export default function Count() {
       }
     }
     fetchUserCounts();
-  }, [session, email]);
+  }, [session, email, router]);
 
   const startEditing = (type: keyof typeof counts) => {
     setEditing(type);
@@ -136,7 +136,11 @@ export default function Count() {
             wherever you are and be a part of this divine offering.
           </p>
           <br />
-          <a href="https://chat.whatsapp.com/LEY0027ZJiZHgz45aDS4Xs" target="_blank" className="text-blue-600 hover:underline font-bold">
+          <a
+            href="https://chat.whatsapp.com/LEY0027ZJiZHgz45aDS4Xs"
+            target="_blank"
+            className="text-blue-600 hover:underline font-bold"
+          >
             Click here to join our WhatsApp community
           </a>
         </div>
@@ -233,7 +237,7 @@ export default function Count() {
                 Total Participants
               </h3>
               <p className="text-3xl font-bold text-blue-600">
-                {analytics.totalUsers.toLocaleString('en-IN')}
+                {analytics.totalUsers.toLocaleString("en-IN")}
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -242,7 +246,7 @@ export default function Count() {
                   Durga Saptashati
                 </h3>
                 <p className="text-2xl font-bold text-emerald-600">
-                  {analytics.byPractice.durgaSaptashati.toLocaleString('en-IN')}
+                  {analytics.byPractice.durgaSaptashati.toLocaleString("en-IN")}
                 </p>
               </div>
               <div className="bg-purple-50 p-4 rounded-lg">
@@ -250,7 +254,7 @@ export default function Count() {
                   Navarna Japa
                 </h3>
                 <p className="text-2xl font-bold text-purple-600">
-                  {analytics.byPractice.navarna.toLocaleString('en-IN')}
+                  {analytics.byPractice.navarna.toLocaleString("en-IN")}
                 </p>
               </div>
               <div className="bg-amber-50 p-4 rounded-lg">
@@ -258,7 +262,9 @@ export default function Count() {
                   Vishnu Sahasranama
                 </h3>
                 <p className="text-2xl font-bold text-amber-600">
-                  {analytics.byPractice.vishnuSahasranama.toLocaleString('en-IN')}
+                  {analytics.byPractice.vishnuSahasranama.toLocaleString(
+                    "en-IN",
+                  )}
                 </p>
               </div>
               <div className="bg-rose-50 p-4 rounded-lg">
@@ -266,7 +272,9 @@ export default function Count() {
                   Lalitha Sahasranama
                 </h3>
                 <p className="text-2xl font-bold text-rose-600">
-                  {analytics.byPractice.lalithaSahasranama.toLocaleString('en-IN')}
+                  {analytics.byPractice.lalithaSahasranama.toLocaleString(
+                    "en-IN",
+                  )}
                 </p>
               </div>
             </div>
