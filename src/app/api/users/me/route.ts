@@ -13,31 +13,40 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
 
-    // Try to find existing user
-    let user = await User.findOne({ email });
+    // Use findOneAndUpdate with upsert to handle concurrent requests
+    const user = await User.findOneAndUpdate(
+      { email },
+      {
+        $setOnInsert: {
+          email,
+          name: "",
+          mobile: "",
+          vishnuSahasranama: 0,
+          lalithaSahasranama: 0,
+          durgaSaptashati: 0,
+          navarnaCount: 0,
+        },
+      },
+      {
+        new: true,
+        upsert: true,
+        setDefaultsOnInsert: true,
+      }
+    );
 
-    // If user doesn't exist, create a new one with default values
-    if (!user) {
-      user = new User({
-        email,
-        vishnuSahasranama: 0,
-        lalithaSahasranama: 0,
-        durgaSaptashati: 0,
-        navarnaCount: 0,
-      });
-      await user.save();
-    }
-
-    // Return only the necessary user data
-    const userData = {
-      email: user.email,
-      vishnuSahasranama: user.vishnuSahasranama || 0,
-      lalithaSahasranama: user.lalithaSahasranama || 0,
-      durgaSaptashati: user.durgaSaptashati || 0,
-      navarnaCount: user.navarnaCount || 0,
-    };
-
-    return NextResponse.json(userData);
+    // Explicitly get the values from the document
+    const userData = user.toObject ? user.toObject() : user;
+    
+    // Return all user data with proper defaults
+    return NextResponse.json({
+      email: userData.email,
+      name: userData.name || '',
+      mobile: userData.mobile || '',
+      vishnuSahasranama: userData.vishnuSahasranama || 0,
+      lalithaSahasranama: userData.lalithaSahasranama || 0,
+      durgaSaptashati: userData.durgaSaptashati || 0,
+      navarnaCount: userData.navarnaCount || 0,
+    });
   } catch (error) {
     console.error("Error in /api/users/me:", error);
     return NextResponse.json(

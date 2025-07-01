@@ -33,6 +33,7 @@ export default function Count() {
       durgaSaptashati: number;
     };
   } | null>(null);
+  
   const email = session?.user?.email;
 
   useEffect(() => {
@@ -50,6 +51,12 @@ export default function Count() {
           axios.post("/api/users/me", { email }),
           axios.get("/api/analytics/top-users"),
         ]);
+
+        // Check if profile is complete
+        if (!userResponse.data.name || !userResponse.data.mobile) {
+          router.push('/profile/complete');
+          return;
+        }
 
         setCounts({
           vishnuSahasranama: userResponse.data.vishnuSahasranama || 0,
@@ -111,7 +118,7 @@ export default function Count() {
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="bg-gradient-to-r from-orange-400 to-red-500 rounded-xl shadow-lg mb-4 md:mb-6">
           <h1 className="text-base xs:text-lg sm:text-xl md:text-2xl text-white font-bold text-center py-4 px-2 sm:py-5 sm:px-3 md:py-6 md:px-4">
-            Sri Ramakrishna Vivekananda Ashrama, Kalaburagi.
+            Sri Ramakrishna Vivekananda Ashrama, Kalaburagi
           </h1>
         </div>
 
@@ -125,9 +132,13 @@ export default function Count() {
             Ayuta Chandika Mahayaga from November 25th-28th, with a sacred
             resolution for world peace and prosperity. Join the powerful
             sankalpa of 10,000 Chandi Parayanas, 1 crore Navarna Japa, and 1
-            crore Vishnu & Lalitha Sahasranama recitations. Participate from
-            wherever you are and be a part of this divine offering
+            lakh Vishnu & Lalitha Sahasranama recitations. Participate from
+            wherever you are and be a part of this divine offering.
           </p>
+          <br />
+          <a href="https://chat.whatsapp.com/LEY0027ZJiZHgz45aDS4Xs" target="_blank" className="text-blue-600 hover:underline font-bold">
+            Click here to join our WhatsApp community
+          </a>
         </div>
 
         <div className="bg-white rounded-xl shadow-md mb-6 p-6 border border-blue-100">
@@ -162,7 +173,6 @@ export default function Count() {
           ].map((item) => {
             const isEditing = editing === item.id;
             const count = counts[item.id as keyof typeof counts];
-
             return (
               <div key={item.id} className="bg-white rounded-xl shadow-md p-6">
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">
@@ -223,7 +233,7 @@ export default function Count() {
                 Total Participants
               </h3>
               <p className="text-3xl font-bold text-blue-600">
-                {analytics.totalUsers}
+                {analytics.totalUsers.toLocaleString('en-IN')}
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -232,7 +242,7 @@ export default function Count() {
                   Durga Saptashati
                 </h3>
                 <p className="text-2xl font-bold text-emerald-600">
-                  {analytics.byPractice.durgaSaptashati}
+                  {analytics.byPractice.durgaSaptashati.toLocaleString('en-IN')}
                 </p>
               </div>
               <div className="bg-purple-50 p-4 rounded-lg">
@@ -240,7 +250,7 @@ export default function Count() {
                   Navarna Japa
                 </h3>
                 <p className="text-2xl font-bold text-purple-600">
-                  {analytics.byPractice.navarna}
+                  {analytics.byPractice.navarna.toLocaleString('en-IN')}
                 </p>
               </div>
               <div className="bg-amber-50 p-4 rounded-lg">
@@ -248,7 +258,7 @@ export default function Count() {
                   Vishnu Sahasranama
                 </h3>
                 <p className="text-2xl font-bold text-amber-600">
-                  {analytics.byPractice.vishnuSahasranama}
+                  {analytics.byPractice.vishnuSahasranama.toLocaleString('en-IN')}
                 </p>
               </div>
               <div className="bg-rose-50 p-4 rounded-lg">
@@ -256,7 +266,7 @@ export default function Count() {
                   Lalitha Sahasranama
                 </h3>
                 <p className="text-2xl font-bold text-rose-600">
-                  {analytics.byPractice.lalithaSahasranama}
+                  {analytics.byPractice.lalithaSahasranama.toLocaleString('en-IN')}
                 </p>
               </div>
             </div>

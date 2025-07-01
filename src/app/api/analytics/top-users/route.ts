@@ -5,9 +5,8 @@ import { NextResponse } from "next/server";
 // Enable caching for 1 hour
 export const revalidate = 3600;
 
-connect();
-
 export async function GET() {
+  await connect();
   try {
     // Get total metrics across all users
     const result = await User.aggregate([

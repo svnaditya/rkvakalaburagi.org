@@ -6,6 +6,14 @@ const userSchema = new mongoose.Schema({
     required: [true, "Please provide an email"],
     unique: true,
   },
+  name: {
+    type: String,
+    required: false,
+  },
+  mobile: {
+    type: String,
+    required: false,
+  },
   vishnuSahasranama: {
     type: Number,
     default: 0,
